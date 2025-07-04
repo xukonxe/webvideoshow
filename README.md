@@ -1,5 +1,104 @@
-# Vue 3 + TypeScript + Vite
+# B站视频代码演示项目
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+这是一个为B站视频 "我决定，用我的人生，验证我的理念" 创建的动态网页项目。它通过左侧实时编写代码、右侧实时渲染的方式，生动地讲述了一个关于技术、理想和社会实验的故事。
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+**B站视频地址**: [点击这里观看](https://www.bilibili.com/video/BV1x13JzCEdr/) *(你需要替换成你的B站视频链接)*
+
+## 项目理念
+
+> 我不相信我必须按照我讨厌的方式和社会产生关系。我希望我和社会是相互帮助的，而不是相互斗争的。
+> 所以，我决定，尝试迎风而上，试试看，能不能对现状有所改变。
+>
+> ...
+>
+> 从今天开始，我会将我开发的程序、软件功能免费公开，所有个人都可以免费使用。
+> 我相信，现在已经到了可以实现这一点的时间了：如果你愿意支持我，请你给我打赏费用，一切服务器费用都从打赏里支出。
+>
+> 这是一个赌上我的人生未来的实验，我赌现在的年轻人，会用脚投票，支持我的技术和社会工作。
+
+此项目是我视频的展示框架。
+
+## 功能特性
+
+- **实时代码动画**: 左侧编辑器模拟真人打字效果，逐字输入代码。
+- **实时预览**: 右侧区域实时渲染左侧代码（HTML & CSS）的最终效果。
+- **剧本驱动**: 整个动画流程由一个易于理解和修改的 "剧本" (`src/core/script.ts`) 控制。
+- **智能代码插入**: 能够将新的代码片段精确插入到DOM结构中的指定位置，实现增量更新。
+- **暗黑模式**: 支持浅色和深色两种主题，并能通过代码动态切换。
+- **响应式布局**: 在不同尺寸的屏幕上都能良好地展示。
+
+## 技术栈
+
+- **[Vue 3](https://vuejs.org/)**: 用于构建用户界面的核心框架。
+- **[TypeScript](https://www.typescriptlang.org/)**: 为项目提供静态类型检查，增强代码的可维护性。
+- **[Vite](https://vitejs.dev/)**: 提供极速的开发服务器和构建体验。
+
+## 如何运行
+
+1.  **克隆仓库**
+    ```bash
+    # 替换成你的仓库地址
+    git clone https://github.com/xukonxe/webvideoshow
+    cd webvideoshow
+    ```
+
+2.  **安装依赖**
+    ```bash
+    npm install
+    ```
+
+3.  **启动开发服务器**
+    ```bash
+    npm run dev
+    ```
+    之后，在浏览器中打开 Vite 提示的本地地址 (通常是 `http://localhost:5173`) 即可看到效果。
+
+## 如何自定义内容
+
+本项目最核心的部分是 **剧本**。你可以通过修改 `src/core/script.ts` 文件来完全自定义动画的内容和流程。
+
+`script.ts` 文件导出了一个 `script` 数组，数组中的每一个对象都是一个 "场景" (`Scene`)。
+
+一个 `Scene` 对象的结构如下:
+
+```typescript
+export interface Scene {
+  target: 'style-editor' | 'content-editor'; // 目标编辑器：'style-editor' (左侧CSS) 或 'content-editor' (右侧HTML)
+  code: string;                               // 要输入的代码
+  delay?: number;                             // 当前场景完成后，延迟多久进入下一场景 (毫秒)
+  replace?: boolean;                          // 是否完全替换目标编辑器的内容，默认为 false (附加)
+  appendTo?: string;                          // [关键功能] 指定一个CSS选择器，将代码附加到该选择器匹配的元素内部
+}
+```
+
+通过组合这些场景，你可以创造出属于你自己的代码故事。
+
+## 项目结构
+
+```
+.
+├── public/
+│   └── qq-group-qr.png  # 静态资源，如QQ群二维码
+├── src/
+│   ├── assets/          # 样式等资源
+│   │   ├── components/
+│   │   │   ├── CodePlayer.vue   # 左侧代码播放器组件
+│   │   │   └── LivePreview.vue  # 右侧实时预览组件
+│   │   ├── core/
+│   │   │   └── script.ts      # 核心！动画剧本文件
+│   │   ├── App.vue          # 主应用组件，负责整体布局
+│   │   └── main.ts          # 应用入口文件
+│   ├── index.html
+│   ├── package.json
+│   └── README.md
+```
+
+## 参与贡献与交流
+
+这个项目完全开源，欢迎你提出建议、修复Bug或添加新功能！
+
+- **提交 Issue**: 如果你发现了问题或有好的想法，请在仓库的 `Issues` 页面提出。
+- **提交 Pull Request**: 欢迎你直接贡献代码！
+- **加入QQ群讨论**: 扫描项目中的二维码或点击链接，加入我们的开发者交流群。
+
+感谢你的关注与支持！
