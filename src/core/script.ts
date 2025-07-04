@@ -23,12 +23,26 @@ export const script: Scene[] = [
 
 body {
   font-family: sans-serif;
-  background: #222;
-  color: #ccc;
+  background-color: #fdf6e3; /* A warm beige base */
+  background-image:
+    linear-gradient(rgba(135, 122, 102, 0.2) .1em, transparent .1em),
+    linear-gradient(90deg, rgba(135, 122, 102, 0.2) .1em, transparent .1em);
+  background-size: 2em 2em;
+  color: #333; /* 在浅色背景下，使用深色文字 */
+}
+
+/* [新增] 为深色模式下的body单独设置样式 */
+body.dark-mode {
+  background-color: #222; /* 深色背景 */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.07) .1em, transparent .1em),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) .1em, transparent .1em);
+  background-size: 2.5em 2.5em;
+  color: #ccc; /* 浅色文字 */
 }
 
 #main-title {
-  color: #eee;
+  color: #555;
   font-size: 3em;
   text-align: center;
   position: absolute;
@@ -64,9 +78,9 @@ body {
 }
 
 #story-container {
-  color: #ccc;
-  font-size: 1.2em;
-  line-height: 1.6;
+  color: #444; /* 在浅色背景下使用更深的文字颜色 */
+  font-size: 1.3em; /* [修改] 增大字体 */
+  line-height: 1.7; /* [修改] 增加行高以匹配新字体大小 */
   position: absolute;
   top: 6rem;
   left: 1rem;
@@ -175,12 +189,6 @@ body {
     delay: 1000,
   },
   {
-    target: 'style-editor',
-    code: `
-.highlight { color: #98c379; }
-.free { color: #61afef; font-weight: bold; text-shadow: 0 0 10px #61afef88; }`,
-  },
-  {
     target: 'content-editor',
     code: `
   <p>马克思主义说，人是一切社会关系的总和。</p>`,
@@ -191,6 +199,11 @@ body {
     code: `
   <p>我觉得，挣钱是挣什么？无非就是别人对你的<span class="highlight">需要</span>和别人对你的<span class="highlight">赞赏</span>。</p>`,
     appendTo: '#story-container',
+  },
+  {
+    target: 'style-editor',
+    code: `
+.highlight { color: #98c379; }`,
   },
   {
     target: 'content-editor',
@@ -223,6 +236,11 @@ body {
     code: `
   <p>从今天开始，我会将我开发的程序、软件功能<span class="free">免费公开</span>，所有个人都可以<span class="free">免费使用</span>。</p>`,
     appendTo: '#story-container',
+  },
+  {
+    target: 'style-editor',
+    code: `
+.free { color: #61afef; font-weight: bold; text-shadow: 0 0 10px #61afef88; }`,
     delay: 2500,
   },
   {
@@ -269,4 +287,179 @@ body {
     appendTo: '#story-container',
     delay: 3000,
   },
+
+  // --- ACT 4: The Invitation ---
+  {
+    target: 'style-editor',
+    code: `
+/*
+* 故事讲完了。
+* 最后，让我介绍一下我正在做的事情，
+* 以及如何参与进来。
+*/
+`
+  },
+  {
+      target: 'content-editor',
+      code: `
+  <hr class="divider" />
+  <h2>我的项目 & 欢迎加入</h2>`,
+      appendTo: '#story-container'
+  },
+  {
+    target: 'content-editor',
+    code: `
+  <div class="project-card">
+    <h3><i class="fas fa-rocket"></i> 正在运行：深维AI审核</h3>
+    <p>一个完全免费的AI审核服务，可以深度理解语义，并使用自然语言设定审核规则。欢迎各位免费尝试。</p>
+  </div>`,
+    appendTo: '#story-container',
+  },
+    {
+    target: 'content-editor',
+    code: `
+  <div class="project-card">
+    <h3><i class="fas fa-code-branch"></i> 开源项目：auto-tree-map</h3>
+    <p>一个自动将文章转化为逻辑树的AI项目。开源地址在：<a href="https://github.com/xukonxe/auto-tree-map" target="_blank">GitHub</a></p>
+  </div>`,
+    appendTo: '#story-container',
+  },
+  {
+    target: 'content-editor',
+    code: `
+  <div class="project-card">
+    <h3><i class="fas fa-robot"></i> 正在开发：QQ群机器人</h3>
+    <p>如果你对我将要开发的项目有任何建议或者想要的功能，请你可以加我的qq群来一起交流讨论。</p>
+  </div>`,
+    appendTo: '#story-container',
+    delay: 1000,
+  },
+  {
+    target: 'style-editor',
+    code: `
+.project-card {
+  background: #2c313a;
+  border-left: 4px solid #61afef;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.project-card h3 {
+  margin-top: 0;
+  color: #268bd2; /* [修改] 在浅色模式下换一个更和谐的颜色 */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.project-card a {
+  color: #d33682; /* [修改] 调整链接颜色 */
+  text-decoration: none;
+  font-weight: bold;
+}
+.project-card a:hover {
+  text-decoration: underline;
+}
+`
+  },
+  {
+    target: 'content-editor',
+    code: `
+  <h2 class="call-to-action">期待你的加入，我们【加群一起开发】！</h2>`,
+    appendTo: '#story-container',
+  },
+    {
+    target: 'style-editor',
+    code: `
+.call-to-action {
+  text-align: center;
+  color: #cb4b16; /* [修改] 调整颜色 */
+  font-size: 1.8em;
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 2px dashed #cb4b16; /* [修改] 调整颜色 */
+  border-radius: 10px;
+  text-shadow: 0 0 15px #cb4b1688; /* [修改] 调整颜色 */
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(203, 75, 22, 0.7); /* [修改] 调整颜色 */
+  }
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* [修改] 调整阴影 */
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(203, 75, 22, 0); /* [修改] 调整颜色 */
+  }
+}
+`
+  },
+  {
+    target: 'content-editor',
+    code: `
+  <div class="contact-info">
+    <p>点击链接加入我的交流群：<a href="https://qm.qq.com/q/Ht3Mt0rsiI" target="_blank">https://qm.qq.com/q/Ht3Mt0rsiI</a></p>
+    <img src="/qq-group-qr.png" alt="QQ群二维码" class="qr-code" />
+  </div>`,
+    appendTo: '#story-container',
+  },
+  {
+    target: 'style-editor',
+    code: `
+.contact-info {
+  text-align: center;
+  margin-top: 2.5rem;
+  padding-bottom: 2rem;
+}
+.contact-info p {
+  font-size: 1.1em;
+}
+.contact-info a {
+  color: #2aa198; /* [修改] 调整颜色 */
+}
+.qr-code {
+  max-width: 200px;
+  margin-top: 1rem;
+  border-radius: 12px;
+  border: 4px solid #eee; /* [修改] 调整边框颜色 */
+  background: white; /* 给二维码一个白色背景，确保可扫描 */
+  padding: 0.5rem;
+}
+`
+  },
+  {
+    target: 'style-editor',
+    code: `
+body.dark-mode .project-card {
+  background: #2c313a;
+  border-left-color: #61afef;
+}
+body.dark-mode .project-card h3 {
+  color: #98c379;
+}
+body.dark-mode .project-card a {
+  color: #c678dd;
+}
+body.dark-mode .call-to-action {
+  color: #e5c07b;
+  border-color: #e5c07b;
+  text-shadow: 0 0 15px #e5c07b88;
+}
+body.dark-mode .contact-info a {
+  color: #61afef;
+}
+body.dark-mode .qr-code {
+  border-color: #444b5a;
+}
+`
+  }
 ]; 

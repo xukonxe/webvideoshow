@@ -20,8 +20,9 @@ const playbackSpeed = ref<number>(1);
 const fullStyleCode = ref<string>('');
 const fullHtmlCode = ref<string>('');
 
-// 增加可配置的打字速度，每个字符之间的延时
-const baseTypingSpeed = ref<number>(10); 
+// [修改] 定义不同代码类型的基础延时 (ms)
+const styleTypingSpeed = ref<number>(5);  // CSS打字更快
+const htmlTypingSpeed = ref<number>(30); // HTML打字更慢
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms * (1 / playbackSpeed.value)));
 
@@ -101,7 +102,11 @@ async function play() {
     let typedText = '';
     for (const char of code) {
       await waitIfPaused();
-      const typingSpeed = Math.random() * 10 + baseTypingSpeed.value;
+      
+      // [修改] 根据目标编辑器类型，应用不同的打字速度
+      const typingSpeed = isStyleEditor ? styleTypingSpeed.value : htmlTypingSpeed.value;
+      const randomJitter = Math.random() * 10 - 5; // 增加一点随机抖动，更自然
+      
       typedText += char;
 
       const newFullCode = beforeSlice + typedText + afterSlice;
@@ -125,7 +130,7 @@ async function play() {
         emit('update:content', newFullCode);
       }
 
-      await sleep(typingSpeed);
+      await sleep(typingSpeed + randomJitter);
     }
     
     await sleep(delay);
@@ -166,7 +171,7 @@ watch(isPlaying, (newValue) => {
       <div class="speed-control">
         <i class="fas fa-cog"></i>
         <span>速度:</span>
-        <input type="range" v-model="playbackSpeed" min="0.5" max="2" step="0.1" />
+        <input type="range" v-model="playbackSpeed" min="0.5" max="10" step="0.1" />
         <span>{{ playbackSpeed }}x</span>
       </div>
     </div>
